@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Touch Screen Drawing</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      canvas {
+        background-color: black;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      context.strokeStyle = 'black';
+      context.lineWidth = 5;
+
+      canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        var touch = e.touches[0];
+        context.beginPath();
+        context.moveTo(lastX, lastY);
+        context.lineTo(touch.clientX, touch.clientY);
+        context.stroke();
+        lastX = touch.clientX;
+        lastY = touch.clientY;
+      });
+
+      canvas.addEventListener('touchstart', function(e) {
+        var touch = e.touches[0];
+        lastX = touch.clientX;
+        lastY = touch.clientY;
+      });
+
+      canvas.addEventListener('touchend', function(e) {
+        lastX = null;
+        lastY = null;
+      });
+    </script>
+  </body>
+</html>
