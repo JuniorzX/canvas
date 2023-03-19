@@ -14,6 +14,8 @@
     <script>
       var canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d");
+      canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
       context.strokeStyle = "red", context.lineWidth = 5, canvas.addEventListener("touchmove", function(t) {
         t.preventDefault();
         var e = t.touches[0];
