@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Touch Screen Drawing</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+<head>
+	<title>Touch Screen Drawing</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" width="400" height="400"></canvas>
+	<script>
+		// Get the canvas element and its context
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
 
-      canvas {
-        background-color: black;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script>
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext('2d');
-      context.strokeStyle = 'black';
-      context.lineWidth = 5;
+		// Set the pen color and width
+		ctx.strokeStyle = "black";
+		ctx.lineWidth = 3;
 
-      canvas.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-        var touch = e.touches[0];
-        context.beginPath();
-        context.moveTo(lastX, lastY);
-        context.lineTo(touch.clientX, touch.clientY);
-        context.stroke();
-        lastX = touch.clientX;
-        lastY = touch.clientY;
-      });
+		// Set up touch event listeners
+		canvas.addEventListener("touchstart", startDrawing);
+		canvas.addEventListener("touchmove", draw);
 
-      canvas.addEventListener('touchstart', function(e) {
-        var touch = e.touches[0];
-        lastX = touch.clientX;
-        lastY = touch.clientY;
-      });
+		// Function to start drawing
+		function startDrawing(event) {
+			// Prevent scrolling on touch devices
+			event.preventDefault();
 
-      canvas.addEventListener('touchend', function(e) {
-        lastX = null;
-        lastY = null;
-      });
-    </script>
-  </body>
+			// Get the touch position relative to the canvas
+			var touchX = event.touches[0].pageX - canvas.offsetLeft;
+			var touchY = event.touches[0].pageY - canvas.offsetTop;
+
+			// Begin the drawing path
+			ctx.beginPath();
+			ctx.moveTo(touchX, touchY);
+		}
+
+		// Function to continue drawing
+		function draw(event) {
+			// Prevent scrolling on touch devices
+			event.preventDefault();
+
+			// Get the touch position relative to the canvas
+			var touchX = event.touches[0].pageX - canvas.offsetLeft;
+			var touchY = event.touches[0].pageY - canvas.offsetTop;
+
+			// Draw a line from the previous position to the current position
+			ctx.lineTo(touchX, touchY);
+			ctx.stroke();
+		}
+	</script>
+</body>
 </html>
